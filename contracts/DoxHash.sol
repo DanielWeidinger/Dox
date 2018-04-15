@@ -73,15 +73,22 @@ contract DoxHash {
         PriceChanged(newPrice);
     }
 
+    function kill() ownerOnly public {
+        selfdestruct(owner);
+    }
+
 
     function save(string _hashContent) payable public {
         require(msg.value >= price);
 
         //save/map the hash
-        uint hashId = ++lastHashId;
+        uint hashId = lastHashId;
+
         hashes[hashId].sender = msg.sender;
         hashes[hashId].content = _hashContent;
         hashes[hashId].timestamp = block.timestamp;
+
+        lastHashId++;
 
         //Log event
         NewHashStored(hashes[hashId].sender, hashId, hashes[hashId].content, hashes[hashId].timestamp);
