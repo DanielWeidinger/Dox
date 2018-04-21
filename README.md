@@ -4,11 +4,11 @@
 
 ## January 8, 2018 
 
-##### Purpose 
+#### Purpose 
 
 The purpose of this paper is to articulate the research efforts completed to date as well as ongoing and future efforts to evaluate and potentially better standardize the Progress of our Project.
 
-##### Background 
+#### Background 
 
 Dox will be a smart-contract saved in the Ethereum blockchain. By sending a message to the contract with the data the user wants to save in the blockchain, another contract will be made with the data,
 that gets converted in a zip by the Dox-contract. After this process the user will get an address to his new created smart-contract. When the user wants to download his data he simply has to send a 
@@ -21,7 +21,7 @@ information as input, assigning value to that input through the rules set out in
 an asset should go to one person or returned to the other person from whom the asset originated. These contracts are stored on blockchain technology a decentralized ledger that also underpins
 bitcoin and other cryptocurrencies. Blockchain is ideal for storing smart contracts because of the technology's security and immutability.
 
-##### Detailed Steps of the Program
+#### Detailed Steps of the Program
 
 ![Map of Task](https://gitlab.htl-leonding.ac.at/fe150047/Dox/blob/master/Dox.pdf "Logo Title Text 1")
 
