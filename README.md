@@ -23,7 +23,7 @@ bitcoin and other cryptocurrencies. Blockchain is ideal for storing smart contra
 
 #### Detailed Steps of the Program
 
-![Map of Task](https://gitlab.htl-leonding.ac.at/fe150047/Dox/blob/master/Dox.png "Logo Title Text 1")
+!(https://gitlab.htl-leonding.ac.at/fe150047/Dox/blob/master/Dox.png "Logo Title Text 1")
 
 
 #### Practical uses for Dox.
