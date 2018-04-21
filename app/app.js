@@ -21,7 +21,7 @@ window.App = {
     App.DoxContract.setProvider(web3.currentProvider);
     App.DoxContract.defaults({from: web3.eth.coinbase});
 
-    App.Dox = App.DoxContract.at('0x3663d424765750614e8dee1a241f909f66348395');
+    App.Dox = App.DoxContract.at('0x1db0aa0e8017038e124f510bf2e325dc14591b50');
     console.log(App.Dox);
 
     //DOM
@@ -29,7 +29,7 @@ window.App = {
     App.info = document.getElementById("info");
 
     //events
-    App.initEvents()
+    App.initEvents();
   },
 
   initEvents: function(){
@@ -44,14 +44,20 @@ window.App = {
       }
         
     });
-
   },
 
   save: function(){
 
-    console.log(App.Dox);
+    App.Dox.save(App.hashInput.value).then((result) => {
+      console.log(result);
+    });
+  },
 
-    App.Dox.save(App.hashInput.value);
+  find: function(){
+
+    App.Dox.save(App.hashInput.value).then((result) => {
+      console.log(result);
+    });
   }
 }
 

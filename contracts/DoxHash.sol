@@ -34,7 +34,7 @@ contract DoxHash {
     //constructor
 
     function DoxHash(uint _price) public{
-        require(_price > 0);
+        require(_price >= 0);
 
         owner = msg.sender;
         price = _price;
