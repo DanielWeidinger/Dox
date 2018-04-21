@@ -28091,9 +28091,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 window.App = {
 
   hashInput: undefined,
-
+  info: undefined,
   DoxContract: undefined,
-
   Dox: undefined,
 
   init: function(){
@@ -28106,20 +28105,27 @@ window.App = {
     App.Dox = App.DoxContract.at('0x3663d424765750614e8dee1a241f909f66348395');
     console.log(App.Dox);
 
+    //DOM
+    App.hashInput = document.getElementById("inputHash");
+    App.info = document.getElementById("info");
+
     //events
+    App.initEvents()
+  },
+
+  initEvents: function(){
+
     App.Dox.NewHashStored((err, res) => {
       if(err) 
         console.log(err);
-      else
-        console.log(res);
-    })
+      else{
 
-    App.hashInput = document.getElementById("inputHash");
-    /*DoxContract.deployed().then(function(instance) {
-      return console.log(instance);
-    }).catch(function(e) {
-      console.log(e);
-    });*/
+        App.info.innerHTML =  "Stored Hash: " + res.args._hashContent +
+        "\nTime: " + timeConverter(res.args.timestamp);
+      }
+        
+    });
+
   },
 
   save: function(){
@@ -28133,12 +28139,10 @@ window.App = {
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
-    console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
-    // Use Mist/MetaMask's provider
+    
     window.web3 = new __WEBPACK_IMPORTED_MODULE_1_web3___default.a(web3.currentProvider);
   } else {
-    console.warn("No web3 detected. Falling back to http://127.0.0.1:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
-    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    alert("No Metamask detected... Falling back to http://127.0.0.1:9545");
     window.web3 = new __WEBPACK_IMPORTED_MODULE_1_web3___default.a(new __WEBPACK_IMPORTED_MODULE_1_web3___default.a.providers.HttpProvider("http://127.0.0.1:9545"));
   }
 
@@ -28148,6 +28152,20 @@ window.addEventListener('load', function() {
 
   document.getElementById("btnSave").onclick = App.save;
 });
+
+
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
 
 /***/ }),
 /* 75 */
