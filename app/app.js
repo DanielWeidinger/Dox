@@ -9,7 +9,9 @@ import Dox_artifacts from '../build/contracts/DoxHash.json';
 
 window.App = {
 
-  hashInput: undefined,
+  ipfs_node: undefined,
+
+  content: undefined,
   info: undefined,
   DoxContract: undefined,
   Dox: undefined,
@@ -22,14 +24,23 @@ window.App = {
     App.DoxContract.defaults({from: web3.eth.coinbase});
 
     App.Dox = App.DoxContract.at('0x1db0aa0e8017038e124f510bf2e325dc14591b50');
-    console.log(App.Dox);
+    console.log("Web3 Ready!");
 
     //DOM
-    App.hashInput = document.getElementById("inputHash");
+    App.content = document.getElementById("source");
     App.info = document.getElementById("info");
 
     //events
     App.initEvents();
+
+    //ipfs
+    App.ipfs_node = new Ipfs();
+
+    App.ipfs_node.once('ready', () => {
+      console.log("IPFS ready!");
+
+      App.ipfs_node.version((err, version) => { console.log("IPFS Version: " + version.version); });
+    })
   },
 
   initEvents: function(){
@@ -43,20 +54,6 @@ window.App = {
         "\nTime: " + timeConverter(res.args.timestamp);
       }
         
-    });
-  },
-
-  save: function(){
-
-    App.Dox.save(App.hashInput.value).then((result) => {
-      console.log(result);
-    });
-  },
-
-  find: function(){
-
-    App.Dox.save(App.hashInput.value).then((result) => {
-      console.log(result);
     });
   }
 }
@@ -73,11 +70,49 @@ window.addEventListener('load', function() {
 
   App.init();
 
-
-
-  document.getElementById("btnSave").onclick = App.save;
+  document.getElementById("btnSave").onclick = store;
 });
 
+function saveEth(){
+
+  App.Dox.save(App.content.value).then((result) => {
+    console.log(result);
+  });
+}
+
+function findEth(){
+
+  App.Dox.save(App.hashInput.value).then((result) => {
+    console.log(result);
+  });
+}
+
+function store () {
+  let toStore = document.getElementById('source').value;
+
+  App.ipfs_node.files.add(Buffer.from(toStore), (err, res) => {
+    if (err || !res) {
+      return console.error('ipfs add error', err, res);
+    }
+
+    res.forEach((file) => {
+      if (file && file.hash) {
+        console.log('ipfs: successfully stored', file.hash);
+        saveEth();
+        display(file.hash);
+      }
+    });
+  })
+}
+
+function display (hash) {
+  // buffer: true results in the returned result being a buffer rather than a stream
+  App.ipfs_node.files.cat(hash, (err, data) => {
+    if (err) { return console.error('ipfs cat error', err) }
+
+    console.log(hash + " => " + data);
+  })
+}
 
 function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp * 1000);

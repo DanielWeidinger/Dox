@@ -5,9 +5,10 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "start": "http-server -a localhost -p 8000 -c-1 ./build"
   },
-  "author": "Douglas von Kohorn",
+  "author": "Daniel Weidinger",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -29,12 +30,12 @@
     "eslint-plugin-standard": "^2.0.0",
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.7",
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1",
     "style-loader": "^0.13.2",
     "truffle-contract": "^1.1.11",
-    "web3": "^0.20.0",
-    "webpack": "^2.7.0",
-    "webpack-dev-server": "^2.3.0"
-  }
+    "web3": "0.20.0",
+    "webpack": "2.7.0",
+    "webpack-cli": "2.0.14",
+    "webpack-dev-server": "2.3.0"
+  },
+  "dependencies": {}
 }
