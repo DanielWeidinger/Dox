@@ -1,10 +1,7 @@
-//css
-import "./stylesheets/style.css";
-
 import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 
-import Dox_artifacts from '../build/contracts/DoxHash.json';
+import Dox_artifacts from '../../build/contracts/DoxHash.json';
 
 
 window.App = {
@@ -12,7 +9,6 @@ window.App = {
   ipfs_node: undefined,
 
   content: undefined,
-  info: undefined,
   DoxContract: undefined,
   Dox: undefined,
 
@@ -24,7 +20,7 @@ window.App = {
     App.DoxContract.defaults({from: web3.eth.coinbase});
 
     App.Dox = App.DoxContract.at('0x1db0aa0e8017038e124f510bf2e325dc14591b50');
-    console.log("Web3 Ready!");
+    appendToConsole("Web3 ready!");
 
     //DOM
     App.content = document.getElementById("source");
@@ -37,9 +33,8 @@ window.App = {
     App.ipfs_node = new Ipfs();
 
     App.ipfs_node.once('ready', () => {
-      console.log("IPFS ready!");
 
-      App.ipfs_node.version((err, version) => { console.log("IPFS Version: " + version.version); });
+      App.ipfs_node.version((err, version) => { appendToConsole("IPFS ready! (version " + version.version + ")"); });
     })
   },
 
@@ -49,11 +44,37 @@ window.App = {
       if(err) 
         console.log(err);
       else{
-
-        App.info.innerHTML =  "Stored Hash: " + res.args._hashContent +
-        "\nTime: " + timeConverter(res.args.timestamp);
+        appendToConsole(res.args._hashId + ": hash stored in the blockchain (ethereum: " + timeConverter(res.args.timestamp) + ")");
       }
         
+    });
+  },
+
+  store: function (data, name) {
+
+    App.ipfs_node.files.add({
+        path: name,
+        content: Buffer.from(data)
+      }, (err, res) => {
+      if (err || !res) {
+        appendToConsole("IPFS error");
+        return console.error('ipfs add error', err, res);
+      }
+  
+      res.forEach((file) => {
+        if (file && file.hash) {
+          appendToConsole('file successfully stored (ipfs)', file.hash);
+          console.log('ipfs: successfully stored', file.hash);
+          saveEth(file.hash);
+        }
+      });
+    })
+  },
+
+  search: function (id){
+    findEth(id, (res) => {
+      console.log(res);
+      displayIPFSContent(res[1]); //zweiten rückgabewert übergeben
     });
   }
 }
@@ -68,49 +89,34 @@ window.addEventListener('load', function() {
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"));
   }
 
-  App.init();
+  appendToConsoleWithoutDox("Dox Blochain Memory [Version 1.0.0] <br>(c) 2018 Dox Corporation. all rights reserved.<br>");
 
-  document.getElementById("btnSave").onclick = store;
+  console.log("init");
+  App.init();
 });
 
-function saveEth(){
+function saveEth(hash){
 
-  App.Dox.save(App.content.value).then((result) => {
-    console.log(result);
+  App.Dox.save(hash).then((result) => {
+    console.log(result); //blockinfo
   });
 }
 
-function findEth(){
+function findEth(id, cb){
 
-  App.Dox.save(App.hashInput.value).then((result) => {
-    console.log(result);
+  App.Dox.find(id).then((result) => {
+    cb(result);
   });
 }
 
-function store () {
-  let toStore = document.getElementById('source').value;
-
-  App.ipfs_node.files.add(Buffer.from(toStore), (err, res) => {
-    if (err || !res) {
-      return console.error('ipfs add error', err, res);
-    }
-
-    res.forEach((file) => {
-      if (file && file.hash) {
-        console.log('ipfs: successfully stored', file.hash);
-        saveEth();
-        display(file.hash);
-      }
-    });
-  })
-}
-
-function display (hash) {
+function displayIPFSContent (hash) {
   // buffer: true results in the returned result being a buffer rather than a stream
   App.ipfs_node.files.cat(hash, (err, data) => {
     if (err) { return console.error('ipfs cat error', err) }
 
+    appendToConsole('IPFS: retured hash: ' + hash);
     console.log(hash + " => " + data);
+    alert(console.log(hash + " => " + data));
   })
 }
 
