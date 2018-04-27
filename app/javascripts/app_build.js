@@ -28169,7 +28169,7 @@ function displayIPFSContent (hash) {
 
     appendToConsole('IPFS: retured hash: ' + hash);
     console.log(hash + " => " + data);
-    alert(console.log(hash + " => " + data));
+    alert(data);
   })
 }
 
