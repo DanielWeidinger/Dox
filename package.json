@@ -1,6 +1,5 @@
 {
   "name": "dox",
-  "version": "0.1",
   "description": "dox frontend",
   "main": "server.js",
   "scripts": {
