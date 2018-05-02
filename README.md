@@ -23,8 +23,8 @@ bitcoin and other cryptocurrencies. Blockchain is ideal for storing smart contra
 
 #### Detailed Steps of the Program
 
-1. 
-2.
+1. User uploads file to the DOX website
+2. 
 3.
 4.
 5.
