@@ -34,7 +34,7 @@ bitcoin and other cryptocurrencies. Blockchain is ideal for storing smart contra
 9.
 
 
-![](https://github.com/TanzerRafael/Dox/blob/master/Dox.png "Logo Title Text 1")
+![](Dox.png "Logo Title Text 1")
 
 
 #### Practical uses for Dox.
