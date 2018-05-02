@@ -24,14 +24,16 @@ bitcoin and other cryptocurrencies. Blockchain is ideal for storing smart contra
 #### Detailed Steps of the Program
 
 1. User uploads file to the DOX website
-2. 
-3.
-4.
-5.
-6.
-7.
-8.
-9.
+2. The DOX HTML Client sends the File to the IPFS Network  
+3. The file is saved on a node in the IPFS Network
+4. The IPFS networks sends a hash to the HTML Client
+5. The HTML Client sends the IPFS hash to the Ethereum blockchain Dox-smartcontract
+6. The Dox-smartcontract creates a new smartcontract.
+7. The Dox-smartcontract sends the IPFS-hash to the newly created smartcontract.
+8. The IPFS-Hash gets saved on the new smartcontract.
+9. The Pointer that points to the new smartcontract gets returned to the Dox-smartcontract.
+10. The Dox-smartcontract sends the Pointer to the HTML Client.
+11. The user can now save his file-pointer on his Computer
 
 
 ![](Dox.png "Logo Title Text 1")
